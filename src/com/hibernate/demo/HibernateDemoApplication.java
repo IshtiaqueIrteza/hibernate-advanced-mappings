@@ -1,8 +1,9 @@
 package com.hibernate.demo;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import com.hibernate.demo.model.Student;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
 
 /**
  * Created by Ishtiaque on 6/22/2020.
@@ -11,14 +12,27 @@ public class HibernateDemoApplication {
 
     public static void main(String args[]){
 
-        String jdbcUrl = "jdbc:mysql://localhost:3306/test_db";
-        String user = "root";
+        SessionFactory factory = new Configuration().configure("hibernate.cfg.xml")
+                                    .addAnnotatedClass(Student.class).buildSessionFactory();
+
+        Session session = factory.getCurrentSession();
 
         try {
-            Connection myConn = DriverManager.getConnection(jdbcUrl, user, "");
-        } catch (SQLException e) {
+
+            Student s = new Student("Akash","Islam", "akash@gmail.com");
+
+            session.beginTransaction();
+
+            session.save(s);
+
+            session.getTransaction().commit();
+
+        }
+        catch (Exception e){
             e.printStackTrace();
         }
-
+        finally {
+            factory.close();
+        }
     }
 }

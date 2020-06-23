@@ -1,2 +1,2 @@
 # hibernate-advanced-mappings
-Hibernate advanced mappings with java
+Hibernate advanced mappings with java, using mySql.
